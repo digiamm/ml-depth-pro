@@ -27,6 +27,8 @@ def get_torch_device() -> torch.device:
         device = torch.device("cuda:0")
     elif torch.backends.mps.is_available():
         device = torch.device("mps")
+    
+    print("Using device {}".format(device))
     return device
 
 
@@ -43,6 +45,7 @@ def run(args):
     model.eval()
 
     image_paths = [args.image_path]
+
     if args.image_path.is_dir():
         image_paths = args.image_path.glob("**/*")
         relative_path = args.image_path
@@ -63,6 +66,7 @@ def run(args):
         except Exception as e:
             LOGGER.error(str(e))
             continue
+        
         # Run prediction. If `f_px` is provided, it is used to estimate the final metric depth,
         # otherwise the model estimates `f_px` to compute the depth metricness.
         prediction = model.infer(transform(image), f_px=f_px)
