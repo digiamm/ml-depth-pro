@@ -69,6 +69,18 @@ boundary_f1 = SI_boundary_F1(predicted_depth, target_depth)
 boundary_recall = SI_boundary_Recall(predicted_depth, target_mask)
 ```
 
+### Batch predictions (saves .npz)
+Get a folder of RGB images as input and output a folder of .npz depths [m] (this also outputs inverse depths in jpg for viz). From root repo run:
+```bash
+python3 src/depth_pro/cli/run.py --image-path <path-to-rgb-input-folder> --output-path <path-to-depth-output-folder> --skip-display
+```
+When reading the depth, access in the following way:
+```python
+# assuming reading file 0000000000.npz 
+import numpy as np
+d = np.load("0000000000.npz")
+depth = d["depth"] # access to depth matrix [m]
+```
 
 ## Citation
 
